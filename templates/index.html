@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colorful Voice Assistant</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #a6c0fe, #f68084);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: #1f1f2e;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: bold;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
+      margin-top: 50px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 800px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    .btn-listen {
+      background-color: #0077ff;
+      color: #fff;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .btn-listen:hover {
+      background-color: #005bd1;
+      transform: scale(1.05);
+    }
+
+    .logs {
+      margin-top: 30px;
+      text-align: left;
+      max-height: 300px;
+      overflow-y: auto;
+      background: #f3f3f3;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .log {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-left: 4px solid #4b8df8;
+      background: #ffffff;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .log.user {
+      border-left-color: #9b59b6;
+    }
+
+    .log.assistant {
+      border-left-color: #2ecc71;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>🎤 Colorful Voice Assistant</header>
+
+  <div class="container">
+    <button class="btn-listen" onclick="startListening()">🎧 Start Listening</button>
+
+    <div class="logs" id="logBox">
+      {% for log in logs %}
+        <div class="log {% if 'User:' in log %}user{% else %}assistant{% endif %}">{{ log }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <footer>
+    💡 Try saying: "Open Chrome", "What is the time?", "Play music", or "Shutdown system"
+  </footer>
+
+  <script>
+    function startListening() {
+      fetch('/listen', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          setTimeout(() => location.reload(), 5000);
+        });
+    }
+  </script>
+</body>
+</html>
